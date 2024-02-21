@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <style>
+        .note{
+            width: 250px;
+            height: 150px;
+            background-color: yellow;
+            padding: 15px;
+            border: 1px solid orange;
+            box-shadow: 2px 6px 12px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div id="react-container"></div>
+
+    <script type="text/babel">
+        class Note extends React.Component{
+
+            constructor(props){
+                super(props)
+                this.state = {
+                    editing: false
+                }
+            }
+
+            editing = () => {
+                this.setState({editing: true})
+            }
+
+            save = () => {
+                var val = this.refs.newText.value
+                alert(val)
+                this.setState({editing: false})
+            }
+
+            deleting(){
+                alert('Deleting')
+            }
+
+            renderForm = () => {
+                return(
+                    <div className='note'>
+                        <textarea ref='newText'></textarea>
+                        <button onClick={this.save}>Save</button>
+                    </div>
+                )
+            }
+
+            renderDisplay = () => {
+                return(
+                    <div className='note'>
+                        <p>{this.props.children}</p>
+                        <span>
+                            <button onClick={this.editing}>Edit</button>
+                            <button onClick={this.deleting}>X</button>
+                        </span>    
+                    </div>
+                )                
+            }
+
+            render(){
+                if(this.state.editing){
+                    return this.renderForm()
+                }
+                else{
+                    return this.renderDisplay()
+                }
+            }
+        }
+
+        ReactDOM.render(<Note>Hello World</Note>, document.getElementById('react-container'))
+
+        class Board extends React.Component{
+
+            constructor(props){
+                super(props)
+                this.state = {
+                    notes: [
+                        'Call Person',
+                        'Make Prototype',
+                        'Submit Proposal',
+                        'Send Follow Up'
+                    ]
+                }
+            }
+
+            render(){
+                return(
+                    <div className='board'>
+                        {this.state.notes.map((note, i) => {
+                            return <Note key={i}>{note}</Note>
+                        })}
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render(<Board />, document.getElementById('react-container'))
+
+    </script>
+</body>
+</html>

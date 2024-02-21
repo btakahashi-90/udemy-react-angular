@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <style>
+        .header{
+            text-align: center;
+        }
+        .note{
+            width: 250px;
+            height: 150px;
+            background-color: yellow;
+            padding: 15px;
+            border: 1px solid orange;
+            box-shadow: 2px 6px 12px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div id="lesson-four"></div>
+    <div id="lesson-four-header" class="header"></div>
+    <div id="l4-react-container"></div>
+
+    <div id="lesson-three"></div>
+    <div id="lesson-three-header" class="header"></div>
+    <div id="l3-react-container"></div>
+
+    <div id="lesson-two"></div>
+    <div id="lesson-two-header" class="header"></div>
+    <div id="l2-react-container"></div>
+
+    <div id="lesson-one"></div>
+    <div id="lesson-one-header" class="header"></div>
+    <div id="react-container"></div>
+    <div id="second-react-container"></div>
+
+    <script type="text/babel">
+        // Lesson breaks/headers BEGIN
+        const LineBreak = () => {
+            return <hr></hr>
+        }
+
+        class LessonHeader extends React.Component{
+            render(){
+                return  <div>
+                            <h1>{this.props.text}</h1>
+                        </div>
+            }
+        }
+        // Lesson breaks/headers END
+
+        /* LESSON FOUR/FIVE BEGIN - EXTENDS LESSON TWO */
+        class Note extends React.Component{
+
+            constructor(props){
+                super(props)
+                this.state = {
+                    editing: false
+                }
+            }
+
+            editing = () => {
+                this.setState({editing: true})
+            }
+
+            save = () => {
+                var val = this.refs.newText.value
+                alert(val)
+                this.setState({editing: false})
+            }
+
+            deleting(){
+                alert('Deleting')
+            }
+
+            renderForm = () => {
+                return(
+                    <div className='note'>
+                        <textarea ref='newText'></textarea>
+                        <button onClick={this.save}>Save</button>
+                    </div>
+                )
+            }
+
+            renderDisplay = () => {
+                return(
+                    <div className='note'>
+                        <p>{this.props.children}</p>
+                        <span>
+                            <button onClick={this.editing}>Edit</button>
+                            <button onClick={this.deleting}>X</button>
+                        </span>    
+                    </div>
+                )                
+            }
+
+            render(){
+                if(this.state.editing){
+                    return this.renderForm()
+                }
+                else{
+                    return this.renderDisplay()
+                }
+            }
+        }
+
+        ReactDOM.render(<Note>Hello World</Note>, document.getElementById('l4-react-container'))
+        /* LESSON FOUR/FIVE END - EXTENDS LESSON TWO */
+
+        /* LESSON THREE BEGIN */
+        class CheckBox extends React.Component{
+
+            constructor(props){
+                super(props)
+                this.state = {
+                    checked: false
+                }
+            }
+
+            onChangeHandle = () => {
+                this.setState({checked: !this.state.checked})    
+            }
+
+            render(){
+                var msg;
+                if(this.state.checked){
+                    msg = "Checked"
+                }
+                else{
+                    msg = "Unchecked"
+                }
+                return(
+                    <div>
+                        <input type="checkbox" onChange={this.onChangeHandle}/>
+                        <p>The box is {msg}</p>
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render(<CheckBox />, document.getElementById('l3-react-container'))
+        /* LESSON THREE END */
+
+        /* LESSON TWO BEGIN */
+        class NoteL2 extends React.Component{
+
+            editing(){
+                alert('Editing')
+            }
+
+            deleting(){
+                alert('Deleting')
+            }
+
+            render(){
+                return(
+                    <div className='note'>
+                        <p>{this.props.children}</p>
+                        <span>
+                            <button onClick={this.editing}>Edit</button>
+                            <button onClick={this.deleting}>X</button>
+                        </span>    
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render(<NoteL2>Hello World</NoteL2>, document.getElementById('l2-react-container'))
+        /* LESSON TWO END */
+
+        /* LESSON ONE BEGIN */
+        const MySecondComponent = () => {
+            return  <div>
+                        <h1>Hello World</h1>
+                        <p>Welcome to Stateless React Component</p>
+                    </div>
+        }
+
+        class MyComponent extends React.Component {
+            render(){
+                return  <div>
+                            <h1>{this.props.text}</h1>
+                            <p>{this.props.children}</p>
+                        </div>
+            }
+        }
+
+        ReactDOM.render(<div>
+            <MyComponent text="Meh">Message 1</MyComponent>
+            <MyComponent text="Meh2">Message 2</MyComponent>
+            <MyComponent text="Meh3">Message 3</MyComponent>
+        </div>, document.getElementById('react-container'))
+        ReactDOM.render(<MySecondComponent />, document.getElementById('second-react-container'))
+        /* LESSON ONE END */
+
+        ReactDOM.render(<LineBreak />, document.getElementById('lesson-one'))
+        ReactDOM.render(<LessonHeader text="Lesson One" />, document.getElementById('lesson-one-header'))
+        ReactDOM.render(<LineBreak />, document.getElementById('lesson-two'))
+        ReactDOM.render(<LessonHeader text="Lesson Two" />, document.getElementById('lesson-two-header'))
+        ReactDOM.render(<LineBreak />, document.getElementById('lesson-three'))
+        ReactDOM.render(<LessonHeader text="Lesson Three" />, document.getElementById('lesson-three-header'))
+    </script>
+</body>
+</html>
