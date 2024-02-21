@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <style>
+        #mybox{
+            width: 100px;
+            height: 100px;
+            background-color: teal;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="react-container"></div>
+
+    <script type="text/babel">
+        class Box extends React.Component{
+
+            constructor(props){
+                super(props)
+                alert('Component is about to mount')
+            }
+
+            componentDidMount(){
+                alert('Component did mount')
+            }
+
+            render(){
+                return(
+                    <div id='mybox'></div>
+                )
+            }
+        }
+
+        ReactDOM.render(<Box />, document.getElementById('react-container'))
+
+        var removeBox = document.getElementById('mybox')
+        removeBox.onclick = function(){
+            ReactDOM.unmountComponentAtNode(document.getElementById('react-container'))
+            alert('Component unmounted')
+        }
+
+    </script>
+    
+</body>
+</html>
