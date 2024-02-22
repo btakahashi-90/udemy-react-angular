@@ -23,4 +23,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # non-project
-/reactApp/basics
+/react/reactApp/basics/
